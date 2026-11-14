@@ -1,0 +1,815 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="JAB-SAN TECH - Technology Trends and Skills Intelligence Dashboard">
+<title>JAB-SAN TECH | Technology Intelligence</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>
+:root {
+  --navy:#101a35;
+  --blue:#315efb;
+  --cyan:#17b8c8;
+  --bg:#f4f7fc;
+  --text:#18233d;
+  --muted:#71809b;
+  --white:#fff;
+  --line:#e8edf5;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+.layout {
+  display:flex;
+  min-height:100vh;
+}
+
+.sidebar {
+  width:245px;
+  background:var(--navy);
+  color:white;
+  padding:25px 16px;
+  flex-shrink:0;
+}
+
+.brand {
+  font-size:23px;
+  font-weight:800;
+  padding:5px 10px;
+  letter-spacing:1px;
+}
+
+.brand span {
+  color:#27c4d4;
+}
+
+.tagline {
+  font-size:10px;
+  color:#aebbd7;
+  padding:5px 10px 25px;
+}
+
+.nav-label {
+  font-size:10px;
+  color:#8293b5;
+  margin:20px 10px 10px;
+  letter-spacing:1px;
+}
+
+.nav-btn {
+  width:100%;
+  padding:13px 12px;
+  border:0;
+  background:transparent;
+  color:#dce5fa;
+  text-align:left;
+  font-size:13px;
+  border-radius:8px;
+  cursor:pointer;
+  margin:3px 0;
+}
+
+.nav-btn:hover,
+.nav-btn.active {
+  background:#263b70;
+  color:white;
+}
+
+main {
+  flex:1;
+  min-width:0;
+  padding:28px;
+}
+
+.topbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+h1 {
+  font-size:25px;
+  margin:0 0 7px;
+}
+
+.subtitle {
+  color:var(--muted);
+  font-size:13px;
+}
+
+.status {
+  background:#e7f8f9;
+  color:#087f89;
+  padding:9px 13px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.notice {
+  background:#fff8e8;
+  border:1px solid #f4dfad;
+  color:#755514;
+  padding:13px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+.page {
+  display:none;
+}
+
+.page.active {
+  display:block;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.card {
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:18px;
+  box-shadow:0 4px 15px rgba(24,45,85,.035);
+  margin-bottom:15px;
+}
+
+.metric-title {
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+.metric {
+  font-size:27px;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.metric-foot {
+  color:#8793a8;
+  font-size:11px;
+}
+
+.two-columns {
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:15px;
+}
+
+.card h2 {
+  font-size:16px;
+  margin:0 0 7px;
+}
+
+.hint {
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:16px;
+}
+
+.chart-wrap {
+  height:260px;
+  position:relative;
+}
+
+.skill {
+  margin:18px 0;
+}
+
+.skill-head {
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.bar {
+  height:9px;
+  background:#edf1f8;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.bar span {
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  border-radius:20px;
+}
+
+.info-box {
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  margin:12px 0;
+  background:#fff;
+  line-height:1.6;
+  font-size:13px;
+}
+
+.info-box h3 {
+  margin:0 0 6px;
+  font-size:14px;
+}
+
+.info-box p {
+  margin:0;
+  color:var(--muted);
+}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+}
+
+th,td {
+  padding:13px 10px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+
+th {
+  color:var(--muted);
+  background:#f8faff;
+}
+
+footer {
+  text-align:center;
+  color:#8a96aa;
+  font-size:11px;
+  padding:25px 0 5px;
+}
+
+@media(max-width:900px) {
+  .cards {
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .two-columns {
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px) {
+  .layout {
+    display:block;
+  }
+
+  .sidebar {
+    width:100%;
+    padding:15px;
+  }
+
+  .tagline {
+    padding-bottom:12px;
+  }
+
+  .nav-label {
+    display:none;
+  }
+
+  .nav-btn {
+    width:auto;
+    display:inline-block;
+    padding:9px;
+    font-size:11px;
+  }
+
+  main {
+    padding:18px 13px;
+  }
+
+  h1 {
+    font-size:21px;
+  }
+
+  .topbar {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .cards {
+    gap:9px;
+  }
+
+  .card {
+    padding:14px;
+  }
+
+  .metric {
+    font-size:22px;
+  }
+
+  .chart-wrap {
+    height:230px;
+  }
+}
+</style></head><body><div class="layout"><aside class="sidebar">  <div class="brand">JAB-SAN <span>TECH</span></div>
+  <div class="tagline">TECHNOLOGY INTELLIGENCE</div>  <div class="nav-label">MAIN MENU</div><button class="nav-btn active" data-page="overview">▦ Overview</button>
+<button class="nav-btn" data-page="trends">⌘ Tech Trends</button>
+<button class="nav-btn" data-page="ai">◈ AI Adoption</button>
+<button class="nav-btn" data-page="skills">▤ Skills Analytics</button>
+<button class="nav-btn" data-page="careers">↗ Career Insights</button>
+
+  <div class="nav-label">INFORMATION</div><button class="nav-btn" data-page="about">ⓘ About Project</button>
+
+</aside><main><div class="topbar">
+  <div>
+    <h1 id="pageTitle">Technology Intelligence Dashboard</h1>
+    <div class="subtitle">Explore technology, skills and emerging trends.</div>
+  </div>  <div class="status">● SYSTEM ONLINE</div>
+</div><div class="notice">
+  <b>Demo data notice:</b>
+  The figures displayed on this dashboard are illustrative sample
+  values for demonstration. They are not official survey findings.
+  Verified datasets will be connected in a future update.
+</div><!-- OVERVIEW --><section class="page active" id="overview">  <div class="cards"><div class="card">
+  <div class="metric-title">Programming Languages</div>
+  <div class="metric">8</div>
+  <div class="metric-foot">Sample categories tracked</div>
+</div>
+
+<div class="card">
+  <div class="metric-title">Technology Skills</div>
+  <div class="metric">6</div>
+  <div class="metric-foot">Example skill groups</div>
+</div>
+
+<div class="card">
+  <div class="metric-title">AI Categories</div>
+  <div class="metric">5</div>
+  <div class="metric-foot">Illustrative categories</div>
+</div>
+
+<div class="card">
+  <div class="metric-title">Dataset Status</div>
+  <div class="metric">Demo</div>
+  <div class="metric-foot">Real data not connected yet</div>
+</div>
+
+  </div>  <div class="two-columns"><div class="card">
+  <h2>Programming Language Interest</h2>
+  <div class="hint">Illustrative sample index</div>
+  <div class="chart-wrap">
+    <canvas id="languageChart"></canvas>
+  </div>
+</div>
+
+<div class="card">
+  <h2>AI Tool Categories</h2>
+  <div class="hint">Illustrative sample distribution</div>
+  <div class="chart-wrap">
+    <canvas id="aiChart"></canvas>
+  </div>
+</div>
+
+  </div>  <div class="card">
+    <h2>Technology Intelligence</h2><div class="info-box">
+  <h3>Data Science</h3>
+  <p>Data analysis helps transform information into useful insights.</p>
+</div>
+
+<div class="info-box">
+  <h3>Artificial Intelligence</h3>
+  <p>AI is creating new possibilities in education, business and software development.</p>
+</div>
+
+<div class="info-box">
+  <h3>Digital Skills</h3>
+  <p>Programming, cloud computing and data skills are valuable areas to explore.</p>
+</div>
+
+  </div></section><!-- TECHNOLOGY TRENDS --><section class="page" id="trends">  <div class="card">
+    <h2>Technology Trends Analysis</h2>
+    <div class="hint">Example programming-language interest values</div><div class="chart-wrap">
+  <canvas id="trendChart"></canvas>
+</div>
+
+  </div>  <div class="card">
+    <h2>Programming Languages Overview</h2><table>
+  <thead>
+    <tr>
+      <th>Language</th>
+      <th>Sample Index</th>
+      <th>Common Use</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr><td>Python</td><td>90</td><td>Data Science and AI</td></tr>
+    <tr><td>JavaScript</td><td>82</td><td>Web Development</td></tr>
+    <tr><td>SQL</td><td>76</td><td>Database Management</td></tr>
+    <tr><td>TypeScript</td><td>68</td><td>Web Development</td></tr>
+    <tr><td>Java</td><td>55</td><td>Software Development</td></tr>
+    <tr><td>C++</td><td>44</td><td>Systems Programming</td></tr>
+  </tbody>
+</table>
+
+  </div></section><!-- AI ADOPTION --><section class="page" id="ai">  <div class="cards"><div class="card">
+  <div class="metric-title">AI Categories</div>
+  <div class="metric">5</div>
+  <div class="metric-foot">Example categories</div>
+</div>
+
+<div class="card">
+  <div class="metric-title">Main Focus</div>
+  <div class="metric">AI</div>
+  <div class="metric-foot">Emerging technology</div>
+</div>
+
+  </div>  <div class="two-columns"><div class="card">
+  <h2>AI Application Areas</h2>
+  <div class="hint">Illustrative sample distribution</div>
+
+  <div class="chart-wrap">
+    <canvas id="aiDetailChart"></canvas>
+  </div>
+</div>
+
+<div class="card">
+  <h2>AI Applications</h2>
+
+  <div class="info-box">
+    <h3>Education</h3>
+    <p>Learning assistance and educational content support.</p>
+  </div>
+
+  <div class="info-box">
+    <h3>Software Development</h3>
+    <p>Code assistance, debugging support and documentation.</p>
+  </div>
+
+  <div class="info-box">
+    <h3>Data Analysis</h3>
+    <p>Finding patterns and helping interpret datasets.</p>
+  </div>
+
+  <div class="info-box">
+    <h3>Business</h3>
+    <p>Automation and information processing.</p>
+  </div>
+</div>
+
+  </div></section><!-- SKILLS ANALYTICS --><section class="page" id="skills">  <div class="card">
+    <h2>Technology Skills Analytics</h2>
+    <div class="hint">Illustrative skill-interest index, not measured employment data.</div><div class="skill">
+  <div class="skill-head"><span>Python</span><b>90%</b></div>
+  <div class="bar"><span style="width:90%"></span></div>
+</div>
+
+<div class="skill">
+  <div class="skill-head"><span>SQL</span><b>78%</b></div>
+  <div class="bar"><span style="width:78%"></span></div>
+</div>
+
+<div class="skill">
+  <div class="skill-head"><span>JavaScript</span><b>74%</b></div>
+  <div class="bar"><span style="width:74%"></span></div>
+</div>
+
+<div class="skill">
+  <div class="skill-head"><span>Machine Learning</span><b>68%</b></div>
+  <div class="bar"><span style="width:68%"></span></div>
+</div>
+
+<div class="skill">
+  <div class="skill-head"><span>Cloud Computing</span><b>61%</b></div>
+  <div class="bar"><span style="width:61%"></span></div>
+</div>
+
+<div class="skill">
+  <div class="skill-head"><span>Cybersecurity</span><b>57%</b></div>
+  <div class="bar"><span style="width:57%"></span></div>
+</div>
+
+  </div>  <div class="card">
+    <h2>Recommended Learning Areas</h2><div class="info-box">
+  <h3>1. Programming</h3>
+  <p>Start with Python or JavaScript and practise building small projects.</p>
+</div>
+
+<div class="info-box">
+  <h3>2. Data Analytics</h3>
+  <p>Learn spreadsheets, SQL, Python and data visualisation.</p>
+</div>
+
+<div class="info-box">
+  <h3>3. Cloud Computing</h3>
+  <p>Understand cloud platforms, storage and deployment concepts.</p>
+</div>
+
+<div class="info-box">
+  <h3>4. Cybersecurity</h3>
+  <p>Explore network security, digital safety and security fundamentals.</p>
+</div>
+
+  </div></section><!-- CAREER INSIGHTS --><section class="page" id="careers">  <div class="card">
+    <h2>Technology Career Insights</h2>
+    <div class="hint">Career information and learning guidance</div><div class="info-box">
+  <h3>Data Analyst</h3>
+  <p>Works with datasets, identifies patterns and communicates findings.</p>
+  <p><b>Useful skills:</b> Excel, SQL, Python and visualisation.</p>
+</div>
+
+<div class="info-box">
+  <h3>Software Developer</h3>
+  <p>Designs, builds and maintains software applications.</p>
+  <p><b>Useful skills:</b> Programming, problem solving and Git.</p>
+</div>
+
+<div class="info-box">
+  <h3>AI / Machine Learning Engineer</h3>
+  <p>Develops systems that use data and machine learning techniques.</p>
+  <p><b>Useful skills:</b> Python, mathematics and machine learning.</p>
+</div>
+
+<div class="info-box">
+  <h3>Cybersecurity Analyst</h3>
+  <p>Helps organisations understand and improve their digital security.</p>
+  <p><b>Useful skills:</b> Networking, security fundamentals and analysis.</p>
+</div>
+
+<div class="info-box">
+  <h3>Cloud Engineer</h3>
+  <p>Works with cloud infrastructure, deployment and computing services.</p>
+  <p><b>Useful skills:</b> Networking, Linux and cloud platforms.</p>
+</div>
+
+  </div></section><!-- ABOUT PROJECT --><section class="page" id="about">  <div class="card">
+    <h2>About JAB-SAN TECH</h2><p style="font-size:13px;line-height:1.8;color:#71809b">
+  JAB-SAN TECH is a Technology Trends and Skills Intelligence
+  Dashboard designed to explore programming languages, artificial
+  intelligence, digital skills and technology career opportunities.
+</p>
+
+<div class="info-box">
+  <h3>Project Objective</h3>
+  <p>To demonstrate how data science and visualisation can help people understand technology trends and skills.</p>
+</div>
+
+<div class="info-box">
+  <h3>Technology Stack</h3>
+  <p>HTML, CSS, JavaScript, Chart.js, Python, Pandas and NumPy.</p>
+</div>
+
+<div class="info-box">
+  <h3>Data Science Process</h3>
+  <p>Data collection, data cleaning, data analysis, visualisation and interpretation.</p>
+</div>
+
+<div class="info-box">
+  <h3>Project Status</h3>
+  <p>Interactive demonstration version. Real-world dataset integration is planned.</p>
+</div>
+
+<div class="info-box">
+  <h3>Project Name</h3>
+  <p>JAB-SAN TECH — Technology Trends and Skills Intelligence Dashboard.</p>
+</div>
+
+  </div></section><footer>
+  JAB-SAN TECH | Technology Intelligence Dashboard<br>
+  Student Data Science Project
+</footer></main>
+</div><script>
+
+// NAVIGATION SYSTEM
+
+const buttons = document.querySelectorAll(".nav-btn");
+const pages = document.querySelectorAll(".page");
+
+const titles = {
+  overview:"Technology Intelligence Dashboard",
+  trends:"Technology Trends Analysis",
+  ai:"Artificial Intelligence Adoption",
+  skills:"Technology Skills Analytics",
+  careers:"Technology Career Insights",
+  about:"About JAB-SAN TECH"
+};
+
+buttons.forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    const target = button.dataset.page;
+
+    buttons.forEach(item => item.classList.remove("active"));
+    pages.forEach(page => page.classList.remove("active"));
+
+    button.classList.add("active");
+
+    document.getElementById(target).classList.add("active");
+
+    document.getElementById("pageTitle").textContent = titles[target];
+
+    window.scrollTo({
+      top:0,
+      behavior:"smooth"
+    });
+
+    setTimeout(() => {
+      Object.values(charts).forEach(chart => {
+        if(chart) chart.resize();
+      });
+    },100);
+
+  });
+
+});
+
+
+// CHART CONFIGURATION
+
+Chart.defaults.font.family = "Arial";
+Chart.defaults.color = "#71809b";
+
+const charts = {};
+
+const chartColors = [
+  "#315efb",
+  "#17b8c8",
+  "#8c73ef",
+  "#f2b84b",
+  "#9aa8bd"
+];
+
+
+// OVERVIEW LANGUAGE CHART
+
+charts.language = new Chart(
+  document.getElementById("languageChart"),
+  {
+    type:"bar",
+
+    data:{
+      labels:[
+        "Python",
+        "JavaScript",
+        "SQL",
+        "TypeScript",
+        "Java",
+        "C++"
+      ],
+
+      datasets:[{
+        label:"Sample index",
+        data:[90,82,76,68,55,44],
+        backgroundColor:"#315efb",
+        borderRadius:6
+      }]
+    },
+
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+
+      plugins:{
+        legend:{display:false}
+      },
+
+      scales:{
+        y:{
+          beginAtZero:true,
+          max:100
+        }
+      }
+    }
+  }
+);
+
+
+// OVERVIEW AI CHART
+
+charts.ai = new Chart(
+  document.getElementById("aiChart"),
+  {
+    type:"doughnut",
+
+    data:{
+      labels:[
+        "Code assistance",
+        "Learning",
+        "Writing",
+        "Data analysis",
+        "Other"
+      ],
+
+      datasets:[{
+        data:[35,25,18,14,8],
+        backgroundColor:chartColors,
+        borderWidth:0
+      }]
+    },
+
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+
+      plugins:{
+        legend:{
+          position:"bottom"
+        }
+      }
+    }
+  }
+);
+
+
+// TECHNOLOGY TREND CHART
+
+charts.trend = new Chart(
+  document.getElementById("trendChart"),
+  {
+    type:"line",
+
+    data:{
+      labels:[
+        "Python",
+        "JavaScript",
+        "SQL",
+        "TypeScript",
+        "Java",
+        "C++"
+      ],
+
+      datasets:[{
+        label:"Sample interest index",
+        data:[90,82,76,68,55,44],
+        borderColor:"#315efb",
+        backgroundColor:"rgba(49,94,251,0.12)",
+        fill:true,
+        tension:0.35
+      }]
+    },
+
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+
+      scales:{
+        y:{
+          beginAtZero:true,
+          max:100
+        }
+      }
+    }
+  }
+);
+
+
+// AI DETAILS CHART
+
+charts.aiDetail = new Chart(
+  document.getElementById("aiDetailChart"),
+  {
+    type:"pie",
+
+    data:{
+      labels:[
+        "Education",
+        "Software",
+        "Data Analysis",
+        "Business",
+        "Other"
+      ],
+
+      datasets:[{
+        data:[25,30,20,15,10],
+        backgroundColor:chartColors,
+        borderWidth:0
+      }]
+    },
+
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+
+      plugins:{
+        legend:{
+          position:"bottom"
+        }
+      }
+    }
+  }
+);
+
+</script></body>
+</html>
