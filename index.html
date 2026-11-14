@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TECHSENSE AI - Technology trends and skills intelligence dashboard">
+  <title>TECHSENSE AI | Technology Intelligence</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --navy:#101a35; --blue:#315efb; --cyan:#17b8c8; --bg:#f4f7fc;
+      --text:#18233d; --muted:#71809b; --card:#fff; --line:#e8edf5;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    .layout{display:flex;min-height:100vh}
+    aside{width:245px;background:var(--navy);color:#fff;padding:25px 18px;flex-shrink:0}
+    .brand{font-size:22px;font-weight:800;letter-spacing:.5px;margin:4px 8px 5px}
+    .tag{font-size:11px;color:#aebbd7;margin:0 8px 32px}
+    .nav-label{font-size:10px;color:#8d9bb9;text-transform:uppercase;letter-spacing:1.4px;margin:24px 10px 10px}
+    .nav-item{padding:12px 11px;border-radius:9px;color:#dce5fa;font-size:14px;margin:5px 0}
+    .nav-item.active{background:#263b70;color:white}
+    main{flex:1;min-width:0;padding:28px 30px 40px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:25px}
+    h1{font-size:26px;margin:0 0 7px}
+    .sub{color:var(--muted);font-size:13px}
+    .badge{background:#e7f8f9;color:#087f89;border-radius:30px;padding:9px 13px;font-size:12px;font-weight:700}
+    .notice{background:#fff8e8;border:1px solid #f4dfad;color:#755514;padding:12px 15px;border-radius:10px;font-size:12px;line-height:1.5;margin-bottom:20px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:18px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 4px 16px rgba(24,45,85,.035)}
+    .metric-title{font-size:12px;color:var(--muted);margin-bottom:12px}
+    .metric{font-size:27px;font-weight:800;margin-bottom:6px}
+    .metric-foot{font-size:11px;color:#8793a8}
+    .two{display:grid;grid-template-columns:1.25fr 1fr;gap:16px;margin-bottom:16px}
+    .card h2{font-size:15px;margin:0 0 5px}
+    .hint{font-size:11px;color:var(--muted);margin-bottom:14px}
+    .chart-wrap{height:250px;position:relative}
+    .three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+    .skill-row{margin:15px 0}
+    .skill-head{display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px}
+    .bar{height:8px;border-radius:10px;background:#edf1f8;overflow:hidden}
+    .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:10px}
+    .insight{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;line-height:1.5}
+    .insight:last-child{border:0}
+    .insight b{display:block;font-size:13px;margin-bottom:4px}
+    footer{text-align:center;color:#8a96aa;font-size:11px;padding:25px 0 5px}
+    @media(max-width:900px){aside{width:190px}.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.three{grid-template-columns:1fr}}
+    @media(max-width:600px){.layout{display:block}aside{width:100%;padding:16px}.brand{font-size:19px}.tag{margin-bottom:12px}.nav-label{display:none}.nav-item{display:inline-block;padding:8px 10px;font-size:11px;margin:3px}main{padding:20px 14px}.top{align-items:flex-start;flex-direction:column}h1{font-size:23px}.grid{gap:10px}.card{padding:14px}.metric{font-size:23px}.chart-wrap{height:220px}}
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside>
+    <div class="brand">TECHSENSE AI</div>
+    <div class="tag">TECHNOLOGY INTELLIGENCE</div>
+    <div class="nav-label">Workspace</div>
+    <div class="nav-item active">▦ &nbsp; Overview</div>
+    <div class="nav-item">⌘ &nbsp; Tech Trends</div>
+    <div class="nav-item">◈ &nbsp; AI Adoption</div>
+    <div class="nav-item">▤ &nbsp; Skills Analytics</div>
+    <div class="nav-item">↗ &nbsp; Career Insights</div>
+    <div class="nav-label">About</div>
+    <div class="nav-item">ⓘ &nbsp; Project Information</div>
+  </aside>
+  <main>
+    <div class="top">
+      <div>
+        <h1>Technology Intelligence Dashboard</h1>
+        <div class="sub">Explore developer tools, skills and technology trends.</div>
+      </div>
+      <div class="badge">● DEMO DASHBOARD</div>
+    </div>
+
+    <div class="notice"><b>Dataset notice:</b> These figures are illustrative sample data used to build and test the dashboard. They are not official survey findings. We will replace them with verified Stack Overflow Developer Survey data after data preparation.</div>
+
+    <section class="grid">
+      <div class="card"><div class="metric-title">Programming languages tracked</div><div class="metric">8</div><div class="metric-foot">Sample dashboard categories</div></div>
+      <div class="card"><div class="metric-title">Technology skills</div><div class="metric">6</div><div class="metric-foot">Example skill groups</div></div>
+      <div class="card"><div class="metric-title">AI tools tracked</div><div class="metric">5</div><div class="metric-foot">Illustrative categories</div></div>
+      <div class="card"><div class="metric-title">Dataset status</div><div class="metric">Demo</div><div class="metric-foot">Real survey data not connected yet</div></div>
+    </section>
+
+    <section class="two">
+      <div class="card">
+        <h2>Programming Language Interest</h2>
+        <div class="hint">Illustrative percentage values</div>
+        <div class="chart-wrap"><canvas id="languageChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h2>AI Tool Usage Categories</h2>
+        <div class="hint">Illustrative distribution</div>
+        <div class="chart-wrap"><canvas id="aiChart"></canvas></div>
+      </div>
+    </section>
+
+    <section class="three">
+      <div class="card">
+        <h2>Skills Overview</h2><div class="hint">Example skill-interest index</div>
+        <div class="skill-row"><div class="skill-head"><span>Python</span><b>90%</b></div><div class="bar"><span style="width:90%"></span></div></div>
+        <div class="skill-row"><div class="skill-head"><span>SQL</span><b>78%</b></div><div class="bar"><span style="width:78%"></span></div></div>
+        <div class="skill-row"><div class="skill-head"><span>JavaScript</span><b>74%</b></div><div class="bar"><span style="width:74%"></span></div></div>
+        <div class="skill-row"><div class="skill-head"><span>Machine Learning</span><b>68%</b></div><div class="bar"><span style="width:68%"></span></div></div>
+        <div class="skill-row"><div class="skill-head"><span>Cloud</span><b>61%</b></div><div class="bar"><span style="width:61%"></span></div></div>
+      </div>
+      <div class="card">
+        <h2>Technology Trend Snapshot</h2><div class="hint">Example observations, not survey conclusions</div>
+        <div class="insight"><b>Data skills</b>Python and SQL are useful foundations for analytics projects.</div>
+        <div class="insight"><b>Web development</b>JavaScript supports interactive websites and dashboards.</div>
+        <div class="insight"><b>AI learning</b>Machine learning and responsible AI use are important areas to explore.</div>
+      </div>
+      <div class="card">
+        <h2>Project Information</h2><div class="hint">TECHSENSE AI</div>
+        <div class="insight"><b>Purpose</b>A data-driven view of technology skills and developer trends.</div>
+        <div class="insight"><b>Planned tools</b>Python, Pandas, NumPy, Plotly, HTML, CSS and JavaScript.</div>
+        <div class="insight"><b>Next milestone</b>Prepare and connect a real developer survey dataset.</div>
+      </div>
+    </section>
+    <footer>TECHSENSE AI · Student Data Science Project · Demo version</footer>
+  </main>
+</div>
+<script>
+  Chart.defaults.font.family = "Arial";
+  Chart.defaults.color = "#71809b";
+  new Chart(document.getElementById("languageChart"), {
+    type:"bar",
+    data:{labels:["Python","JavaScript","SQL","TypeScript","Java","C#","C++","PHP"],
+      datasets:[{label:"Interest index",data:[90,82,76,68,55,49,44,35],backgroundColor:"#315efb",borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,grid:{color:"#edf1f7"}},x:{grid:{display:false}}}}
+  });
+  new Chart(document.getElementById("aiChart"), {
+    type:"doughnut",
+    data:{labels:["Code assistance","Learning","Writing","Data analysis","Other"],
+      datasets:[{data:[35,25,18,14,8],backgroundColor:["#315efb","#17b8c8","#8c73ef","#f2b84b","#9aa8bd"],borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:"bottom",labels:{boxWidth:10,padding:12,font:{size:10}}}}}
+  });
+</script>
+</body>
+</html>
